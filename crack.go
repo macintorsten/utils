@@ -4,7 +4,6 @@ import "bufio"
 import "crypto/hmac"
 import "crypto/sha256"
 import "encoding/base64"
-import "encoding/hex"
 import "fmt"
 import "github.com/briandowns/spinner"
 import "log"
@@ -53,7 +52,7 @@ func crack(message []byte, messageMAC []byte, wordfeed <- chan string, hash bool
 func main() {
     // Print usage
     if len(os.Args) != 4 {
-        fmt.Printf("Usage: %s <message hex> <HMAC-SHA256 base64> <wordlist file>\n", os.Args[0])
+        fmt.Printf("Usage: %s <MESSAGE base64> <HMAC-SHA256 base64> <WORDLIST path>\n", os.Args[0])
         os.Exit(1)
     }
 
@@ -64,7 +63,7 @@ func main() {
         os.Exit(1)
     }
 
-    var hmac, err2 = hex.DecodeString(os.Args[2])
+    var hmac, err2 = base64.StdEncoding.DecodeString(os.Args[1])
     if err2 != nil {
         fmt.Printf("hmac should be in other format\n")
         os.Exit(1)
@@ -85,7 +84,7 @@ func main() {
     s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
     s.Prefix = "["
 
-    var numCPU int = runtime.NumCPU()-1
+    var numCPU int = runtime.NumCPU()*2
     if numCPU == 1 {
         s.Suffix = fmt.Sprintf("] Cracking (%d thread)", numCPU)
     } else {

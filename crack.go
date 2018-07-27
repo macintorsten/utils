@@ -82,7 +82,7 @@ func main() {
     var numGo int = numThreads * 8
 
     if numThreads == 1 {
-        s.Suffix = fmt.Sprintf("] Cracking (%d threads - %d go routines)", numThreads, numGo)
+        s.Suffix = fmt.Sprintf("] Cracking (%d thread - %d go routines)", numThreads, numGo)
     } else {
         s.Suffix = fmt.Sprintf("] Cracking (%d threads - %d go routines)", numThreads, numGo)
     }

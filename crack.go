@@ -78,16 +78,18 @@ func main() {
     s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
     s.Prefix = "["
 
-    var numCPU int = runtime.NumCPU()*2
-    if numCPU == 1 {
-        s.Suffix = fmt.Sprintf("] Cracking (%d thread)", numCPU)
+    var numThreads int = runtime.GOMAXPROCS(-1)
+    var numGo int = numThreads * 8
+
+    if numThreads == 1 {
+        s.Suffix = fmt.Sprintf("] Cracking (%d threads - %d go routines)", numThreads, numGo)
     } else {
-        s.Suffix = fmt.Sprintf("] Cracking (%d threads)", numCPU)
+        s.Suffix = fmt.Sprintf("] Cracking (%d threads - %d go routines)", numThreads, numGo)
     }
     s.Start()
 
     words := make(chan string)
-    for i := 0; i < runtime.NumCPU(); i++ {
+    for i := 0; i < numGo; i++ {
         go crack(message, hmac, words, false)
     }
 

@@ -13,12 +13,6 @@ import "runtime"
 import "syscall"
 import "time"
 
-func ComputeHmac256(message string, secret string) string { key := []byte(secret)
-	h := hmac.New(sha256.New, key)
-	h.Write([]byte(message))
-	return base64.StdEncoding.EncodeToString(h.Sum(nil))
-}
-
 func CheckMAC(message []byte, messageMAC []byte, key []byte) bool {
     mac := hmac.New(sha256.New, key)
     mac.Write(message)

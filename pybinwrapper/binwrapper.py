@@ -55,7 +55,7 @@ def main(elf_gz_b64, argv):
         # Overwrite this program with modified bin_gz_b64 call to main()
         self_serc = self_src.strip()
         self_src = self_src.rsplit("\n",2)[0]
-        self_src += "\nmain('%s', %s)" % (bin_gz_b64, command_argv)
+        self_src += "\n\nmain('%s', %s)" % (bin_gz_b64, command_argv)
 
         if sys.stdout.isatty():
             print("Updating %s with embedded command: %s" % (__file__, " ".join(command_argv)))
